@@ -18,56 +18,20 @@
     <script src="./contents/bootstrap.min.js"></script>
 
     <script>//let $ = require('jquery');</script>
-    <title>Hello from Electron renderer!</title>
+    <title>LL Playdate Manager</title>
   </head>
   <body>
+    <!---
     <header>
-      <div class="px-3 py-2 text-bg-dark">
+      <div class="text-bg-dark">
         <div class="container">
-          <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="#">Expand at sm</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-        
-              <div class="collapse navbar-collapse" id="navbarsExample03">
-                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                  </li>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Action</a></li>
-                      <li><a class="dropdown-item" href="#">Another action</a></li>
-                      <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                  </li>
-                </ul>
-                <form role="search">
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                </form>
-              </div>
-            </div>
-          </nav>
-
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-              <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-            </a>
+          <div class="d-flex flex-wrap align-items-left justify-content-left justify-content-lg-start">
   
-            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+            <ul class="nav col-12 col-lg-auto justify-content-center text-small">
               <li>
                 <a href="#" class="nav-link text-secondary">
                   <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg>
-                  Home
+                  Home2
                 </a>
               </li>
               <li>
@@ -100,10 +64,67 @@
       </div>
       
     </header>
+  -->
 
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
+
+        <div class="col-12 purple purple-top"></div>
+
+      </div>
+      <div class="row rh100">
+
+        <div class="col-5 left_pane">
+
+          <span style="margin-top:30px;"
+          class="badge text-bg-success rounded-pill js-status-indicator">Itch OK</span>
+
+          <textarea name="itchlist" id="itchlist"></textarea>
+        </div>
+        <div class="col-2 center_pane">
+
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <button type="button" class="btn btn-primary btn " id="itchtopd"> 
+            Copy To Playdate 
+            <br/>
+            <span class="nowrap">
+              <span class="text-lg">&#x2192;</span>
+              <span class="text-lg">&#x2611;</span>
+              </span>
+          </button>
+          <hr>
+          <button type="button" class="btn btn-primary btn" id="pdrm"> 
+            Remove from playdate 
+            <br/>
+            <span class="nowrap">
+              <span class="text-lg">&#x2620;</span>
+              <span class="text-lg">&#x2612;</span>
+            </span>
+          </button>
+        </div>
+        <div class="col-5 right_pane">
+
+          <span class="badge text-bg-info rounded-pill js-status-indicator">Sideload...</span>
+          <textarea name="sideloadlist" id="sideloadlist"></textarea>
+        </div>
+
+        <div class="col-12 purple purple-bottom"></div>
+      </div>
+    </div>
+
+
+<!---
         <div class="col-12">
+          
+
+
+
+
+
           <h1>Hello from Electron renderer!</h1>
           <div class="d-flex gap-2 justify-content-center py-5">
             <span class="badge text-bg-primary rounded-pill">Primary</span>
@@ -139,6 +160,7 @@
       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">contact stuff</div>
     </div>
     <a href="foo.html">Foo?</a>
+  -->
   </body>
 
   <script src="./renderer.js"></script>
