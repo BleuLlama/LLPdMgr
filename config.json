@@ -1,11 +1,11 @@
 {
     "app": {
-        "config" : "../config.json",
-        "cachedir" : "../cache.llpdmgr/"
+        "config" : "@HOME@/.llpdmgr/config.json",
+        "cachedir" : "@HOME@/.llpdmgf/cache/"
     },
     "credentials" : {
         "itch.io" : {
-            "user": "BleuLlama",
+            "user": "YourUsername",
             "pass": "hunter2",
             "iapikey": "3333xxxx3333xxxx3333xxxx3333"
         },
