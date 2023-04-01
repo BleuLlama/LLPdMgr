@@ -1,9 +1,22 @@
+
+  
+var LLsettings = require('./Conf');
+
+//class Cat extends LLsettings {
+//}
+
+var lls = new LLsettings();
+
+lls.test();
+
+
+
 const { app, BrowserWindow, ipcMain } = require('electron')
 
 const path = require('path')
 
 console.log( "index.js" );
-console.log( process );
+//console.log( process );
 
 const createWindow = () => {
   const win = new BrowserWindow({
