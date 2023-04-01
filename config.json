@@ -1,0 +1,17 @@
+{
+    "app": {
+        "config" : "../config.json",
+        "cachedir" : "../cache.llpdmgr/"
+    },
+    "credentials" : {
+        "itch.io" : {
+            "user": "BleuLlama",
+            "pass": "hunter2",
+            "iapikey": "3333xxxx3333xxxx3333xxxx3333"
+        },
+        "panic.sideload" : {
+            "user":"username@mailhost.cow",
+            "pass":"hunter3"
+        }
+    }
+}
