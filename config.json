@@ -1,12 +1,10 @@
 {
     "app": {
         "config" : "@HOME@/.llpdmgr/config.json",
-        "cachedir" : "@HOME@/.llpdmgf/cache/"
+        "cachedir" : "@HOME@/.llpdmgr/cache/"
     },
     "credentials" : {
         "itch.io" : {
-            "user": "YourUsername",
-            "pass": "hunter2",
             "iapikey": "3333xxxx3333xxxx3333xxxx3333"
         },
         "panic.sideload" : {

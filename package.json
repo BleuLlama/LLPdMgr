@@ -21,6 +21,8 @@
   },
   "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icon/app_icon.icns --prune=true --out=release-builds",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "https": "^1.0.0",
+    "jssoup": "^0.0.15"
   }
 }

@@ -32,6 +32,14 @@ class LLSettings {
 		return( the_cfg );
 	}
 
+	Resolve( key, defval )
+	{
+		var val = this.Get( key, defval );
+
+		val = val.replace( "@HOME@", os.homedir() );
+		return val;
+	}
+
 	Get( key, defval )
 	{
 		// ignore initial slash
