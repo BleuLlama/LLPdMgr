@@ -1,10 +1,21 @@
 
-const os = require("os");
-const fs = require('fs');
-const https = require("https");
-const querystring = require("querystring");
+//const os = require("os");
+//const fs = require('fs');
+//const https = require("https");
+//const querystring = require("querystring");
+
+var fetchCookie = require( 'fetch-cookie' );
+var nodeFetch = require( 'node-fetch' );
+const { JSDOM } = require( 'jsdom' );
+
+const fetch = fetchCookie(nodeFetch);
+
 var JSSoup = require('jssoup').default;
+
 var APIHelper = require("./APIHelper");
+
+// inspiration and pointers provided by
+// https://github.com/ericlewis/playdate-itchio-sync/blob/main/src/playdate.js
 
 class SideloadAPI extends APIHelper {
 	constructor( llcfg ) {
@@ -18,10 +29,133 @@ class SideloadAPI extends APIHelper {
 		this.csrfmiddlewaretoken = '';
 		this.isSignedIn = false;
 		this.OnSignInFn = undefined;
+
+		this.debug = true;
+	}
+
+	async SignIn( callbackfn ) {
+		console.log( "Signin.." );
+
+		var url = 'https://play.date/signin/';
+		try {
+			let response = await fetch( url );
+			let body = await response.text();
+			//console.log(response.status);
+			//console.log( body );
+
+			const dom = new JSDOM(body);
+			this.csrfmiddlewaretoken = dom.window.document
+				.querySelector(`input[name="csrfmiddlewaretoken"]`)
+				.getAttribute("value");
+
+			console.log( 'csrf', this.csrfmiddlewaretoken );
+				
+		}
+		catch(exception){
+			console.log(exception);
+			return callbackfn( false, "Couldn't Sign in" );
+		}
+
+	}
+
+	xSignIn( callbackfn ) {
+		console.log( "Sign In" );
+		callbackfn( false );
+
+		var xxx = this.login(this.sl_user, this.sl_pass);
+		console.log( "Sign In", xxx );
 	}
 
 
-	OnSignIn( callbackfn ){
+
+	getCSRF(url) {
+	  const response = fetch(url);
+	  console.log( response );
+	  return;
+	  const text = response.text();
+	
+	  const dom = new JSDOM(text);
+	  return dom.window.document
+		.querySelector(`input[name="csrfmiddlewaretoken"]`)
+		.getAttribute("value");
+	}
+	
+	login(username, password) {
+	  const token = this.getCSRF("https://play.date/signin/");
+	
+	  const body = new URLSearchParams();
+	  body.append("csrfmiddlewaretoken", token);
+	  body.append("username", username);
+	  body.append("password", password);
+	
+	  return fetch("https://play.date/signin/", {
+		body: body.toString(),
+		method: "POST",
+		headers: {
+		  Referer: "https://play.date/signin/",
+		  "Content-Type": "application/x-www-form-urlencoded",
+		},
+	  });
+	}
+	
+	getSideloads() {
+	  const games = [];
+	
+	  const response = fetch("https://play.date/account/");
+	  const text = response.text();
+	
+	  const dom = new JSDOM(text);
+	  const children = dom.window.document.querySelector(".game-list").children;
+	
+	  for (var i = 0; i < children.length; i++) {
+		const child = children[i];
+		const id = child
+		  .querySelector('a[class="action"]')
+		  .getAttribute("href")
+		  .split("#")[1];
+		const date = child
+		  .querySelector('dd[class="game-date"]')
+		  .textContent.trim(); // todo: normalize this to ISO8061
+		const title = child
+		  .querySelector('dd[class="game-title"]')
+		  .textContent.trim();
+		const version = child
+		  .querySelector('dd[class="game-version"]')
+		  .textContent.trim();
+		const game = {
+		  id,
+		  date,
+		  title,
+		  version,
+		};
+		games.push(game);
+	  }
+	
+	  return games;
+	}
+	
+	uploadGame(path) {
+	  const token = this.getCSRF("https://play.date/account/sideload/");
+	
+	  const body = new FormData();
+	  body.set("csrfmiddlewaretoken", token);
+	  body.set("file", fileFromPath(path));
+	
+	  return fetch("https://play.date/account/sideload/", {
+		method: "POST",
+		body,
+		headers: {
+		  Referer: "https://play.date/account/sideload/",
+		},
+	  });
+	}
+
+
+
+
+
+
+	xxOnSignIn( callbackfn ){
 
 		// if we're already signed in, just call it.
 		if( this.isSignedIn ) {
@@ -31,7 +165,7 @@ class SideloadAPI extends APIHelper {
 		this.OnSignInFn = callbackfn;
 	}
 
-	SignIn( callbackfn )
+	xxSignIn( callbackfn )
 	{
 		// Sign in steps:
 		//  1. GET the /signin/ page
@@ -123,12 +257,18 @@ class SideloadAPI extends APIHelper {
 				"Referer": "https://play.date" + path,
 				"Content-Type": "application/x-www-form-urlencoded",
 				'Content-Length': Buffer.byteLength(postData),
+				'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36',
+				'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
 				'DEBUG':'True'
 			}
 		};
 
 		var request = https.request(options, function(response) {
 			self.postResponse_contentlength = response.headers['content-length'];
+
+			//console.log( "----AA---- ", request );
+			console.log( "-----BB--- ", path, response.headers );
+
 
 			response.on('end', () => {
 				callbackfn( true, self.postResponseAccumulator );
@@ -223,14 +363,16 @@ class SideloadAPI extends APIHelper {
 			console.log( "Is Signed In", self.isSignedIn );
 		} );
 
+		/*
 		this.OnSignIn( function() {
 			console.log( "doing stuff after signing in....")
 			self.debug = true;
 
-			self.getPdPage( "/account", function( status, data ) {
+			self.getPdPage( "/account/", function( status, data ) {
 				console.log( "getPdPage response ", status, data.length, data );
 			});
 		});
+		*/
 	}
 }
 

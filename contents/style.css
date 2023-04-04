@@ -52,6 +52,7 @@ hr {
 
 .center_pane {
     text-align: center;
+    padding-top: 70px;
 }
 .center_pane .badge {
     width: 100%;
@@ -84,7 +85,40 @@ hr {
 
 .js-status-indicator {
     padding: .5rem 0;
-    height: 2rem;
     margin: 5px 60px 5px 20px;
     width: 90%;
+}
+
+.faded {
+    font-style: italic;
+    opacity: .5;
+}
+
+
+img.itch-user-image,
+img.sideload-user-image {
+    max-width: 35px;
+    width: 35px;
+    height: 35px;
+    max-height: 35px;
+    border-radius: 35px;
+    border: 1px solid black;
+}
+
+.itch-user-name,
+.sideload-user-name
+{
+    line-height: 36px;
+    margin-bottom: 0px;
+    white-space: nowrap;
+    font-weight: 600;
+    display: inline;
+}
+
+.itch-list,
+.sideload-list {
+    border: 1px solid black;
+    background: #8888;
+    width: 100%;
+    height: 100%;
 }

@@ -3,91 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <meta
+    <!--
+    <xmeta
       http-equiv="Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
     />
-    <meta
+    <xmeta
       http-equiv="X-Content-Security-Policy"
       content="default-src 'self'; script-src 'self'"
     />
-    
+    -->
+
     <link rel="stylesheet" href="./contents/bootstrap.min.css" />
     <link rel="stylesheet" href="./contents/style.css" />
     <script src="./contents/jquery.min.js"></script>
     <script src="./contents/bootstrap.min.js"></script>
 
-    <script>//let $ = require('jquery');</script>
     <title>LL Playdate Manager</title>
   </head>
   <body>
-    <!---
-    <header>
-      <div class="text-bg-dark">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-left justify-content-left justify-content-lg-start">
-  
-            <ul class="nav col-12 col-lg-auto justify-content-center text-small">
-              <li>
-                <a href="#" class="nav-link text-secondary">
-                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"></use></svg>
-                  Home2
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link text-white">
-                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>
-                  Dashboard
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link text-white">
-                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>
-                  Orders
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link text-white">
-                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>
-                  Products
-                </a>
-              </li>
-              <li>
-                <a href="#" class="nav-link text-white">
-                  <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"></use></svg>
-                  Customers
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-    </header>
-  -->
 
     <div class="container-fluid">
       <div class="row">
-
         <div class="col-12 purple purple-top"></div>
-
       </div>
-      <div class="row rh100">
 
+      <div class="row rh100">
         <div class="col-5 left_pane">
 
-          <span style="margin-top:30px;"
-          class="badge text-bg-success rounded-pill js-status-indicator">Itch OK</span>
+          <div class="row">
+            <div class="col-7" class="itch-user-info-wrapper">
+              <img id="itch-user-image"
+               class="itch-user-image" 
+               src="contents/Default_pfp.jpg" >
+              <p id="itch-user-name" class="itch-user-name"><span class="faded">itch.io username</span></p>
+            </div>
+            <div class="col-5" class="itch-status-wrapper">
+              <span id="itch-status-pill" class="badge text-bg-info rounded-pill js-status-indicator">Connecting...</span>
+            </div>
+          </div>
+          <div id="itch-list" class="itch-list" ></div>
 
-          <textarea name="itchlist" id="itchlist"></textarea>
         </div>
-        <div class="col-2 center_pane">
+        
+        <script type="text/template" id="templte-itch-list-item">
+          <div class="col-4 itch-list-item">
+            <!-- 
+              @url@
+              @cover_url@
+              @created_at@
+              @published_at@
+              @short_text@
+              @still_cover_art@
+              @classification@
+            -->
+            <img src="@cover_url@"/>
+            <h4>@title@</h4>
+            <h6>@author@</h4>
+          </div>
+        </script>
+      
 
-          <br/>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
+
+        <div class="col-2 center_pane">
+          <button type="button" 
+            class="btn btn-primary btn " 
+            id="refresh-itch">Refresh Itch</button>
+
+
+          <br/> <br/><br/><br/><br/>
           <button type="button" class="btn btn-primary btn " id="itchtopd"> 
             Copy To Playdate 
             <br/>
@@ -106,10 +90,23 @@
             </span>
           </button>
         </div>
+
         <div class="col-5 right_pane">
 
-          <span class="badge text-bg-info rounded-pill js-status-indicator">Sideload...</span>
-          <textarea name="sideloadlist" id="sideloadlist"></textarea>
+          <div class="row">
+            <div class="col-7" class="sideload-user-info-wrapper">
+              <img id="sideload-user-image"
+               class="sideload-user-image" 
+               src="contents/Default_pfp.jpg" >
+              <p id="sideload-user-name" class="sideload-user-name"><span
+                 class="faded">sideload username</span></p>
+            </div>
+            <div class="col-5" class="sideload-status-wrapper">
+              <span class="badge text-bg-info rounded-pill js-status-indicator">Connecting...</span>
+            </div>
+
+          </div>
+          <div id="sideload-list" class="sideload-list" ></div>
         </div>
 
         <div class="col-12 purple purple-bottom"></div>

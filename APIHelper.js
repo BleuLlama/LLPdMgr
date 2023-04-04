@@ -12,6 +12,8 @@ class APIHelper {
 		this.save_basename = "XXXX";
 
 		this.cachedir = llcfg.Resolve( 'app/cachedir' );
+		this.forceFromCache = llcfg.Get( 'app/forceFromCache');
+
 		fs.mkdirSync( this.cachedir, { recursive: true }, (err) => {
 			if (err) throw err;
 		});
@@ -38,6 +40,34 @@ class APIHelper {
 		});
 	}
 
+	load( key )
+	{
+		if( key[0] == '/' ) { key = key.slice( 1 ) };
+		var filename = this.cachedir + '/' + this.save_basename + '-ajax-' + key + '.json';
+		filename = filename.replace( '//', '/' );
+
+		var data = fs.readFileSync( filename );
+		if( data != undefined ) {
+			data = JSON.parse( data );
+		}
+
+		return data;
+	}
+
+	loadFromCache( key, callbackfn )
+	{
+		if( this.forceFromCache != true ) {
+			return false;
+		}
+
+		console.log( "Loading from itch cache", key );
+
+		var data = this.load( key );
+		callbackfn( true, data );
+
+		return true;
+	}
+
 	objectToURLQuery( myData )
 	{
 		var out = [];
@@ -51,80 +81,8 @@ class APIHelper {
 		return out.join('&');
 	}
 
-	OnSignIn( callbackfn ){
 
-		// if we're already signed in, just call it.
-		if( this.isSignedIn ) {
-			callbackfn();
-			return;
-		}
-		this.OnSignInFn = callbackfn;
-	}
-
-	SignIn( callbackfn )
-	{
-		// Sign in steps:
-		//  1. GET the /signin/ page
-		//  2. from there, get the value for "csrfmiddlewaretoken"
-		//  3. POST to /signin/ page with:
-		//  {
-        //    "csrfmiddlewaretoken" : self.csrfmiddlewaretoken,
-        //    "username" : self.conf[ 'sideload_user' ],
-        //    "password" : self.conf[ 'sideload_pass' ]
-        //  }
-		//	 with headers:
-		//	{
-        //    "Referer": "https://play.date/signin/",
-        //    "Content-Type": "application/x-www-form-urlencoded",
-        // }
-		//	4. retain the cookie/csrf for future use. (it sets a cookie that we pass around for api calls)
-		var self = this;
-		var page = this.getPdPage( '/signin/', function( success, data ) {
-			if( success == false ) {
-				//console.log( "Sideload: Failed initial connection." );
-				callbackfn( false, 'Failed initial connection' );
-				return;
-			}
-
-			// scrape the signin page for the token
-			var soup = new JSSoup( data );
-			var tags = soup.findAll( 'input' ).forEach( function( el ) {
-				if( el.attrs.name == 'csrfmiddlewaretoken') {
-					self.csrfmiddlewaretoken = el.attrs.value;
-				}
-			});
-
-			if( self.csrfmiddlewaretoken == '' ) {
-				callbackfn( false, 'Token not found on page.' );
-				return;
-
-			} else {
-				self.postPdPage( "/signin/", function( success, data ) {
-
-					if( self.isSignedIn == true ) {
-						// ignore response
-						callbackfn( false,  "Already signed in." );
-						return;
-					}
-
-					if( !success ) {
-						callbackfn( false, 'Signin failed' );
-						return;
-
-					} else {
-						self.isSignedIn = true; // do this BEFORE the callback.  oops.
-						callbackfn( true, 'Logged in ok.' );
-						if( self.OnSignInFn ) {
-							self.OnSignInFn();
-						}
-					}
-				} );
-			}
-		} );
-	}
-
-
-
+/*
 	postPdPage( path, callbackfn )
 	{
 		this.postResponseAccumulator = ''; // reset the accumulator
@@ -240,6 +198,7 @@ class APIHelper {
 		});
 		request.end();
 	}
+	*/
 
 	//-------------
 

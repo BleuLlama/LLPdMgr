@@ -22,7 +22,10 @@
   "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icon/app_icon.icns --prune=true --out=release-builds",
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
+    "fetch": "^1.1.0",
+    "fetch-cookie": "^2.1.0",
     "https": "^1.0.0",
+    "jsdom": "^21.1.1",
     "jssoup": "^0.0.15"
   }
 }

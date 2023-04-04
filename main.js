@@ -5,8 +5,6 @@ var ItchAPI = require('./ItchAPI');
 var APIHelper = require( './APIHelper');
 var SideloadAPI = require( './SideloadAPI');
 
-//class Cat extends LLsettings {
-//}
 
 var lls = new LLsettings();
 var itchapi = new ItchAPI( lls );
@@ -15,46 +13,159 @@ var sideloadapi = new SideloadAPI( lls );
 //lls.test();
 
 //sideloadapi.test();
-itchapi.test();
+//itchapi.test();
 
 
 //const { app, BrowserWindow, ipcMain } = require('electron')
 //app.quit(); 
 
-if( false ) {
+if( true ) {
 
-
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 
 const path = require('path')
-
-console.log( "index.js" );
 //console.log( process );
+var mainWindow;
 
-const createWindow = () => {
-  const win = new BrowserWindow({
+const createMainWindow = () => {
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     icon: 'icon/icon_1024',
     webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: true, // protect against prototype pollution
+      enableRemoteModule: false,
+      contentSecurityPolicy: false,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
+  const menu = Menu.buildFromTemplate([
+    {
+      label: app.name,
+      submenu: [
+      {
+        click: () => mainWindow.webContents.send('update-counter', 1),
+        label: 'Increment',
+      },
+      {
+        click: () => mainWindow.webContents.send('update-counter', -1),
+        label: 'Decrement',
+      }
+      ]
+    }
+
+  ])
+
+  Menu.setApplicationMenu(menu)
+
   ipcMain.handle('ping', () => 'pong')
 
-  win.loadFile('index.html');
+  /** 
+   * FUNCTION YOU WANT ACCESS TO ON THE FRONTEND
+   */
+  ipcMain.handle('myfunc', async (event, arg) => {
+    return new Promise(function(resolve, reject) {
+      // do stuff
+      if (true) {
+          resolve("this worked!");
+      } else {
+          reject("this didn't work!");
+      }
+    });  
+  });
+
+  mainWindow.loadFile('index.html');
+
+  //mainWindow.webContents.openDevTools({ mode: 'detach' })
+  mainWindow.webContents.openDevTools();
+
 };
 
+
+function GetAndSend_Itch_Me() {
+
+  itchapi.GetMe( function( success, data ) {
+    if( success ) { 
+      itchapi.logindata = data;
+      mainWindow.webContents.send( 'itch-login-success', data );
+    } else {
+      mainWindow.webContents.send( 'itch-login-fail', data );
+    }
+  });
+}
+
+
+function GetAndSend_Itch_MyOwnedKeys() {
+  console.log( "mainjs get and send games" );
+  itchapi.GetMyOwnedKeys( function( success, data ) {
+    if( success ) { 
+      console.log( 'games', data );
+      mainWindow.webContents.send( 'itch-owned-keys', data );
+    }
+  });
+}
+
+ipcMain.handle('refresh-itch-login', async (event, arg) => {
+  return new Promise(function(resolve, reject) {
+    // do stuff
+    if (true) {
+      GetAndSend_Itch_Me();
+
+      resolve( "OK 100" );
+    } else {
+        reject("this didn't work!");
+    }
+  });  
+});
+
+ipcMain.handle('refresh-itch-data', async (event, arg) => {
+  console.log( " main ipc hadle refresh-itch-data");
+  return new Promise(function(resolve, reject) {
+    // do stuff
+    if (true) {
+      GetAndSend_Itch_MyOwnedKeys();
+
+      resolve( "OK 100" );
+    } else {
+        reject("this didn't work!");
+    }
+  });  
+});
+
+
 app.whenReady().then(() => {
-  createWindow();
+
+  ipcMain.on('counter-value', (_event, value) => {
+    console.log(value) // will print value to Node console
+  });
+
+
+  ipcMain.on('get-itch-status', (_event, value) => {
+    console.log(value) // will print value to Node console
+  });
+
+
+  createMainWindow();
+
 
   // for mac, open a window if none are open
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+      createMainWindow();
     }
   });
+
+  GetAndSend_Itch_Me();
+  
+  /*
+  devtools = new BrowserWindow()
+  win.loadURL('https://github.com')
+  win.webContents.setDevToolsWebContents(devtools.webContents)
+  win.webContents.openDevTools({ mode: 'detach' })
+  */
+
 });
 
 app.on('window-all-closed', () => {

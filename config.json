@@ -1,7 +1,8 @@
 {
     "app": {
         "config" : "@HOME@/.llpdmgr/config.json",
-        "cachedir" : "@HOME@/.llpdmgr/cache/"
+        "cachedir" : "@HOME@/.llpdmgr/cache/",
+        "forceFromCache" : true
     },
     "credentials" : {
         "itch.io" : {

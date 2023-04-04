@@ -1,6 +1,6 @@
 
-const os = require("os");
-const fs = require('fs');
+//const os = require("os");
+//const fs = require('fs');
 const https = require("https");
 const querystring = require("querystring");
 var APIHelper = require("./APIHelper");
@@ -11,14 +11,15 @@ class ItchAPI extends APIHelper {
 		super( llcfg );
 
 		this.save_basename = 'itch';
-
 		this.itch_api = llcfg.Get( 'credentials/itch.io/iapikey' );
 	}
 
 
-
 	api( endpoint, callbackfn, getOrPost, querydata )
 	{
+		if( this.loadFromCache( endpoint, callbackfn )) {
+			return;
+		}
 		if( getOrPost == undefined ) { getOrPost = 'GET'; }
 		if( querydata == undefined ) { querydata = {}; }
 
@@ -77,10 +78,30 @@ class ItchAPI extends APIHelper {
 
 
 	GetMyGames( callbackfn ) {
+		// these seem to be games that the user published
 		this.api( '/my-games', function( success, data ) {
 			callbackfn( success, data );
 		});
 	}
+
+	GetMyOwnedKeys( callbackfn ) {
+		// these seem to be games that the user published
+		this.api( '/my-owned-keys', function( success, data ) {
+			//callbackfn( success, data );
+
+			console.log( 'zzzz', data );
+
+			data.owned_keys.forEach( function( val, idx ) {
+				console.log( idx, val  );
+			});
+			
+
+		});
+	}
+
+	// get owned keys
+	// get owned game
+	// get game data via game id
 
 
 	//https://itch.io/api/1/KEY/game/GAME_ID/download_keys
@@ -102,11 +123,11 @@ class ItchAPI extends APIHelper {
 			}
 		});
 
-		this.GetMyGames( function( success, data ) {
+		this.GetMyOwnedKeys( function( success, data ) {
 			if( success ) { 
-				console.log( "++ GetMyGames", data );
+				console.log( "++ GetMyOwnedKeys", data );
 			} else {
-				console.log( "-- GetMyGames Fail." );
+				console.log( "-- GetMyOwnedKeys Fail." );
 			}
 		});
 
