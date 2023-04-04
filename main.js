@@ -29,8 +29,8 @@ var mainWindow;
 
 const createMainWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 950,
+    height: 700,
     icon: 'icon/icon_1024',
     webPreferences: {
       nodeIntegration: true,
@@ -97,12 +97,10 @@ function GetAndSend_Itch_Me() {
 }
 
 
-function GetAndSend_Itch_MyOwnedKeys() {
-  console.log( "mainjs get and send games" );
+function GetAndSend_Itch_MyOwnedData() {
   itchapi.GetMyOwnedKeys( function( success, data ) {
     if( success ) { 
-      console.log( 'games', data );
-      mainWindow.webContents.send( 'itch-owned-keys', data );
+      mainWindow.webContents.send( 'itch-owned-data', data );
     }
   });
 }
@@ -120,12 +118,11 @@ ipcMain.handle('refresh-itch-login', async (event, arg) => {
   });  
 });
 
-ipcMain.handle('refresh-itch-data', async (event, arg) => {
-  console.log( " main ipc hadle refresh-itch-data");
+ipcMain.handle('refresh-itch-owned-data', async (event, arg) => {
   return new Promise(function(resolve, reject) {
     // do stuff
     if (true) {
-      GetAndSend_Itch_MyOwnedKeys();
+      GetAndSend_Itch_MyOwnedData();
 
       resolve( "OK 100" );
     } else {

@@ -1,27 +1,62 @@
+:root {
+    --color-yellow: #ffc800;
+    --color-green: #c8ff00;
+    --color-purple: #8c00ff;
+}
+
 
 body {
-    background: #ffc800
+    background: var( --color-yellow );
 }
 
-.purple {
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid var( --color-purple );
+    color: var( --color-purple );
+    border-color: var( --color-purple ) transparent var( --color-purple ) transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+.icon-exclamation-wrapper {
     width: 100%;
-    height: 20px;
-    background-color: #8c00ff;
+    height: 64px;
+    text-align: center;
 }
 
-.purple-top {
-    position: absolute;
-    top:0;
+.icon-exclamation {
+    width: 64px;
+    height: 64px;
+    color: var( --color-purple );
 }
+
 
 .purple-bottom {
     position:absolute;
+    height: 16px;
     bottom:0;
 }
 
 hr {
-    border-color: #8c00ff;
-    background-color: #8c00ff;
+    border-color: var( --color-purple );
+    background-color: var( --color-purple );
     height: 10px;
     opacity: 1;
 }
@@ -32,39 +67,37 @@ hr {
     left: 0;
 }
 
-.rh100 {
-    min-height: 80vh;
-    height: 80vh;
+
+.left-pane,
+.right-pane {
+  padding-left: 20px;
+  padding:0;
+  height: 100vh;
 }
 
-.left_pane,
-.right_pane {
-
-  padding-top: 30px !important;
+.itch-header,
+.sideload-header {
+    margin-bottom: 5px;
 }
 
-.left_pane textarea,
-.right_pane textarea {
-  width: 100%;
-  resize: none;
-  height: 100%;
+.btn {
+    margin:0;
 }
 
-.center_pane {
+.center-pane {
     text-align: center;
-    padding-top: 70px;
+    background-color: black;
+    color: white;
 }
-.center_pane .badge {
+.center-pane .badge {
     width: 100%;
     padding: .5rem;
-    margin: .25rem;
 }
 
-.center_pane button {
+.center-pane button {
   display: block;
   width: 100%;
   padding: .5rem;
-  margin: .25rem;
 }
 
 .text-lg {
@@ -113,12 +146,48 @@ img.sideload-user-image {
     white-space: nowrap;
     font-weight: 600;
     display: inline;
+    overflow: hidden;
 }
 
 .itch-list,
 .sideload-list {
-    border: 1px solid black;
-    background: #8888;
+    border: 0px solid var( --color-purple );
+    background: transparent;
     width: 100%;
-    height: 100%;
+    height: calc( 100% - 44px );
+    overflow: hidden;
+    margin:0;
+    padding:0;
+}
+
+.itch-list-item {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 3px solid var( --color-purple );
+    background-color: var( --color-yellow );
+}
+
+.itch-list-item.selected {
+    background-color: var( --color-green );
+}
+
+.itch-list-item-thumbnail {
+    max-height: auto; /* 50px; */
+    max-width: 100px;
+}
+
+
+.itch-th-data {
+    padding-left: 10px;
+}
+
+.itch-list-item-title {
+    font-weight: 500;
+}
+
+.itch-list-item-author {
+    font-style: italic;
+    font-size: smaller;
+    font-weight: 900;
+
 }

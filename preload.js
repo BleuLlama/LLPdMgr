@@ -16,11 +16,11 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 
-contextBridge.exposeInMainWorld('electronAPI', {
+contextBridge.exposeInMainWorld( 'electronAPI', {
   //handleCounter: (callback) => ipcRenderer.on('update-counter', callback),
   handleItchLoginSuccess: (callback) => ipcRenderer.on('itch-login-success', callback),
   handleItchLoginFail: (callback) => ipcRenderer.on('itch-login-fail', callback),
-  handleItchData: (callback) => ipcRenderer.on( 'itch-login-data', callback)
+  handleItchOwnedData: (callback) => ipcRenderer.on( 'itch-owned-data', callback)
 })
 
 contextBridge.exposeInMainWorld('versions', {
@@ -44,18 +44,11 @@ contextBridge.exposeInMainWorld('versions', {
 contextBridge.exposeInMainWorld(
   "api", {
       invoke: (channel, data) => {
-        /*
-          let validChannels = ["myfunc"]; // list of ipcMain.handle channels you want access in frontend to
-          if (validChannels.includes(channel)) {
-              // ipcRenderer.invoke accesses ipcMain.handle channels like 'myfunc'
-              // make sure to include this return statement or you won't get your Promise back
-              return ipcRenderer.invoke(channel, data); 
-          }
-          */
+        console.log( "Invoke", channel );
 
           let validChannels = [
             "refresh-itch-login",
-            "refresh-itch-data"
+            "refresh-itch-owned-data"
           ]; // list of ipcMain.handle channels you want access in frontend to
           if (validChannels.includes(channel)) {
 
@@ -67,19 +60,3 @@ contextBridge.exposeInMainWorld(
       },
   }
 );
-
-/*
-ipcRenderer.on('asynchronous-message', function (evt, message) {
-  if( message.itch_login_fail ) { handle_itch_login_fail( message.itch_login_fail ) ; }
-  if( message.itch_login ) {  handle_itch_login( message.itch_login ); }
-});
-  
-
-
-function handle_itch_login( message ) {
-  console.log( message.user.cover_url );
-} 
-function handle_itch_login_fail( message ) {
-    console.log( "FAIL", message );
-} 
-*/

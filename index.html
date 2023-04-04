@@ -24,14 +24,11 @@
   <body>
 
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-12 purple purple-top"></div>
-      </div>
 
-      <div class="row rh100">
-        <div class="col-5 left_pane">
+      <div class="row view-row">
+        <div class="col-5 left-pane">
 
-          <div class="row">
+          <div class="row itch-header">
             <div class="col-7" class="itch-user-info-wrapper">
               <img id="itch-user-image"
                class="itch-user-image" 
@@ -42,38 +39,48 @@
               <span id="itch-status-pill" class="badge text-bg-info rounded-pill js-status-indicator">Connecting...</span>
             </div>
           </div>
-          <div id="itch-list" class="itch-list" ></div>
+          <div id="itch-list" class="itch-list row overflow-auto" >
+          </div>
 
         </div>
         
         <script type="text/template" id="templte-itch-list-item">
-          <div class="col-4 itch-list-item">
-            <!-- 
-              @url@
-              @cover_url@
-              @created_at@
-              @published_at@
-              @short_text@
-              @still_cover_art@
-              @classification@
-            -->
-            <img src="@cover_url@"/>
-            <h4>@title@</h4>
-            <h6>@author@</h4>
+          <div class="col-12 itch-list-item"
+            id="itch-item-${game.id}"
+          onclick= "clickedListItem( '${game.id}' );""
+          data-game-id="${game.id}"
+          data-game-url="${game.url}"
+          data-short_text="${game.short_text}"
+            >
+            <table>
+              <tr>
+                <td class="itch-th-container">
+                  <img class="itch-list-item-thumbnail" style="display:inline-block;" src="${game.cover_url}"/>
+                </td>
+                <td class="itch-th-data">
+                  <h6 class="itch-list-item-title" >${game.title}</h6>
+                  <h6 class="itch-list-item-author" >${game.author}</h6>
+                </td>
+              </tr>
+            </table>
           </div>
         </script>
       
 
 
-        <div class="col-2 center_pane">
+        <div class="col-2 center-pane">
           <button type="button" 
             class="btn btn-primary btn " 
             id="refresh-itch">Refresh Itch</button>
 
+            <div class="lds-dual-ring"></div>
+            <div class="icon-exclamation-wrapper">  
+              <svg class="icon-exclamation" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16"> <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/> <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/> </svg>
+            </div>
 
           <br/> <br/><br/><br/><br/>
           <button type="button" class="btn btn-primary btn " id="itchtopd"> 
-            Copy To Playdate 
+            &gt; To Playdate 
             <br/>
             <span class="nowrap">
               <span class="text-lg">&#x2192;</span>
@@ -82,7 +89,7 @@
           </button>
           <hr>
           <button type="button" class="btn btn-primary btn" id="pdrm"> 
-            Remove from playdate 
+            Remove Playdate 
             <br/>
             <span class="nowrap">
               <span class="text-lg">&#x2620;</span>
@@ -91,72 +98,29 @@
           </button>
         </div>
 
-        <div class="col-5 right_pane">
+        <div class="col-5 right-pane">
 
-          <div class="row">
+          <div class="row sideload-header">
             <div class="col-7" class="sideload-user-info-wrapper">
               <img id="sideload-user-image"
                class="sideload-user-image" 
                src="contents/Default_pfp.jpg" >
               <p id="sideload-user-name" class="sideload-user-name"><span
-                 class="faded">sideload username</span></p>
+                 class="faded">~</span></p>
             </div>
             <div class="col-5" class="sideload-status-wrapper">
               <span class="badge text-bg-info rounded-pill js-status-indicator">Connecting...</span>
             </div>
 
           </div>
-          <div id="sideload-list" class="sideload-list" ></div>
+          <div id="sideload-list" class="sideload-list overflow-auto"  ></div>
         </div>
 
-        <div class="col-12 purple purple-bottom"></div>
       </div>
     </div>
-
-
 <!---
-        <div class="col-12">
-          
-
-
-
-
-
-          <h1>Hello from Electron renderer!</h1>
-          <div class="d-flex gap-2 justify-content-center py-5">
-            <span class="badge text-bg-primary rounded-pill">Primary</span>
-            <span class="badge text-bg-secondary rounded-pill">Secondary</span>
-            <span class="badge text-bg-success rounded-pill">Success</span>
-            <span class="badge text-bg-danger rounded-pill">Danger</span>
-            <span class="badge text-bg-warning rounded-pill">Warning</span>
-            <span class="badge text-bg-info rounded-pill">Info</span>
-            <span class="badge text-bg-light rounded-pill">Light</span>
-            <span class="badge text-bg-dark rounded-pill">Dark</span>
-          </div>
-          <p>👋</p>
-        </div>
-        <div class="col-6"><p id="info"></p></div>
-        <div class="col-6"><p id="info2">loaded</p></div>
-      </div>
-    </div>
-
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Home</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Contact</button>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">home stuff</div>
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">profile stuff</div>
-      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">contact stuff</div>
-    </div>
-    <a href="foo.html">Foo?</a>
+    <div class="purple purple-top"></div>
+    <div class="purple purple-bottom"></div>
   -->
   </body>
 

@@ -2,7 +2,7 @@
     "app": {
         "config" : "@HOME@/.llpdmgr/config.json",
         "cachedir" : "@HOME@/.llpdmgr/cache/",
-        "forceFromCache" : true
+        "forceFromCache" : false
     },
     "credentials" : {
         "itch.io" : {

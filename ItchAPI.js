@@ -87,14 +87,13 @@ class ItchAPI extends APIHelper {
 	GetMyOwnedKeys( callbackfn ) {
 		// these seem to be games that the user published
 		this.api( '/my-owned-keys', function( success, data ) {
-			//callbackfn( success, data );
+			callbackfn( success, data );
 
-			console.log( 'zzzz', data );
-
+			/*
 			data.owned_keys.forEach( function( val, idx ) {
 				console.log( idx, val  );
 			});
-			
+			*/
 
 		});
 	}
