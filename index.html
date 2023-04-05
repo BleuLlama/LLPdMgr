@@ -21,108 +21,142 @@
 
     <title>LL Playdate Manager</title>
   </head>
+
   <body>
 
-    <div class="container-fluid">
+    <div class="container-fluid h-100 p-0">
 
-      <div class="row view-row">
-        <div class="col-5 left-pane">
+        <!-- USER INFO / HEADER ROW -->
+      <div class="row header-row">
 
-          <div class="row itch-header">
-            <div class="col-7" class="itch-user-info-wrapper">
-              <img id="itch-user-image"
-               class="itch-user-image" 
-               src="contents/Default_pfp.jpg" >
-              <p id="itch-user-name" class="itch-user-name"><span class="faded">itch.io username</span></p>
-            </div>
-            <div class="col-5" class="itch-status-wrapper">
-              <span id="itch-status-pill" class="badge text-bg-info rounded-pill js-status-indicator">Connecting...</span>
-            </div>
+        <div class="col-5">
+          <img id="itch-user-image" class="itch-user-image" src="contents/Default_pfp.jpg">
+          <p id="itch-user-name" class="itch-user-name"><span class="faded"><em>Itch.io: not logged in.</em></span></p>
+        </div>
+
+        <div class="col-2">&nbsp;</div>
+
+        <div class="col-5">
+          <img id="sideload-user-image" class="sideload-user-image" src="contents/Default_pfp.jpg" >
+          <p id="sideload-user-name" class="sideload-user-name"><span class="faded"><em>Sideload: not logged in.</em></span></p>
+        </div>
+      </div>
+
+      <!-- STATUS ROW -->
+      <div class="row status-row">
+
+        <div class="col-5 left-status bg-pd-purple" id="itch-status">Not connected</div>
+
+        <div class="col-2 center-status">
+
+          <div id="js-status-ring" class="icon-wrapper">
+            <div class="lds-dual-ring"></div>
           </div>
-          <div id="itch-list" class="itch-list row overflow-auto" >
+
+          <div id="js-status-exclamation" class="icon-wrapper d-none">  
+            <svg class="icon-exclamation" xmlns="http://www.w3.org/2000/svg" 
+              width="32" height="32" fill="black" class="bi bi-exclamation-circle" 
+              viewBox="0 0 16 16"> 
+              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/> 
+              <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/> 
+            </svg>
           </div>
 
         </div>
-        
-        <script type="text/template" id="templte-itch-list-item">
-          <div class="col-12 itch-list-item"
-            id="itch-item-${game.id}"
-          onclick= "clickedListItem( '${game.id}' );""
-          data-game-id="${game.id}"
-          data-game-url="${game.url}"
-          data-short_text="${game.short_text}"
-            >
-            <table>
-              <tr>
-                <td class="itch-th-container">
-                  <img class="itch-list-item-thumbnail" style="display:inline-block;" src="${game.cover_url}"/>
-                </td>
-                <td class="itch-th-data">
-                  <h6 class="itch-list-item-title" >${game.title}</h6>
-                  <h6 class="itch-list-item-author" >${game.author}</h6>
-                </td>
-              </tr>
-            </table>
+
+        <div class="col-5 right-status bg-pd-purple" id="sideload-status">Not connected</div>
+      </div>
+
+
+      <!-- CONTENT / CONTROLS ROW -->
+      <div class="row content-row">
+
+        <div class="col-5 left-pane">
+          <div id="itch-list" class="itch-list row overflow-auto" >
           </div>
-        </script>
-      
-
-
+        </div>
+        
         <div class="col-2 center-pane">
-          <button type="button" 
-            class="btn btn-primary btn " 
-            id="refresh-itch">Refresh Itch</button>
 
-            <div class="lds-dual-ring"></div>
-            <div class="icon-exclamation-wrapper">  
-              <svg class="icon-exclamation" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16"> <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/> <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/> </svg>
-            </div>
+          <div class="button-group"> 
+            <div class="title">Refresh</div>
+            
+            <button type="button" 
+              onclick="uiaction_refresh_itch()"
+              class="btn btn-action" 
+              id="refresh-itch">Itch.io</button>
 
-          <br/> <br/><br/><br/><br/>
-          <button type="button" class="btn btn-primary btn " id="itchtopd"> 
-            &gt; To Playdate 
-            <br/>
-            <span class="nowrap">
-              <span class="text-lg">&#x2192;</span>
-              <span class="text-lg">&#x2611;</span>
+            <button type="button" 
+                onclick="uiaction_refresh_sideload()"
+                class="btn btn-action" 
+                id="refresh-itch">Sideload</button>
+          </div>
+
+          <div class="button-group"> 
+            <div class="title">Sideload</div>
+
+            <button type="button" 
+              onclick="uiaction_to_playdate()"
+              class="btn btn-action" 
+              id="itchtopd"
+              >Install
+              <span class="nowrap">
+                <span class="text-lg">&#x2192;</span>
+                <span class="text-lg">&plus;</span>
+                <span class="text-lg">&#x2611;</span>
+                </span>
+            </button>
+            <button type="button" 
+              onclick="uiaction_remove_from_sideload()"
+              class="btn btn-action disabled" 
+              id="pdrm"
+              > Delete
+              <span class="nowrap">
+                <span class="text-lg">&minus;</span>
+                <span class="text-lg">&#x2612;</span>
               </span>
-          </button>
-          <hr>
-          <button type="button" class="btn btn-primary btn" id="pdrm"> 
-            Remove Playdate 
-            <br/>
-            <span class="nowrap">
-              <span class="text-lg">&#x2620;</span>
-              <span class="text-lg">&#x2612;</span>
-            </span>
-          </button>
+            </button>
+            </div>
         </div>
 
         <div class="col-5 right-pane">
-
-          <div class="row sideload-header">
-            <div class="col-7" class="sideload-user-info-wrapper">
-              <img id="sideload-user-image"
-               class="sideload-user-image" 
-               src="contents/Default_pfp.jpg" >
-              <p id="sideload-user-name" class="sideload-user-name"><span
-                 class="faded">~</span></p>
-            </div>
-            <div class="col-5" class="sideload-status-wrapper">
-              <span class="badge text-bg-info rounded-pill js-status-indicator">Connecting...</span>
-            </div>
-
-          </div>
           <div id="sideload-list" class="sideload-list overflow-auto"  ></div>
         </div>
 
       </div>
     </div>
-<!---
-    <div class="purple purple-top"></div>
-    <div class="purple purple-bottom"></div>
-  -->
+
+
+
+
   </body>
 
+  
+  <!-- templatier items -->
+
+  <script type="text/template" id="templte-itch-list-item">
+    <div class="col-12 itch-list-item"
+          id="itch-item-${game.id}"
+          onclick= "clickedListItem( '${game.id}' );""
+          data-game-id="${game.id}"
+          data-game-url="${game.url}"
+          data-short_text="${game.short_text}"
+      >
+      <table>
+        <tr>
+          <td class="itch-th-container">
+            <img class="itch-list-item-thumbnail" src="${game.cover_url}"/>
+          </td>
+          <td class="itch-th-data">
+            <h6 class="itch-list-item-title" >${game.title}</h6>
+            <h6 class="itch-list-item-author" >${game.author}</h6>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </script>
+
+  <script src="./utils.js"></script>
   <script src="./renderer.js"></script>
 </html>
+

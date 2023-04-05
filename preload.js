@@ -16,11 +16,14 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 
+/// these are the things we receive from MAIN to RENDERER
 contextBridge.exposeInMainWorld( 'electronAPI', {
   //handleCounter: (callback) => ipcRenderer.on('update-counter', callback),
-  handleItchLoginSuccess: (callback) => ipcRenderer.on('itch-login-success', callback),
-  handleItchLoginFail: (callback) => ipcRenderer.on('itch-login-fail', callback),
-  handleItchOwnedData: (callback) => ipcRenderer.on( 'itch-owned-data', callback)
+  appFinishedStartup: (callback) => ipcRenderer.on( 'app-finished-startup', callback),
+  handleItchLoginSuccess: (callback) => ipcRenderer.on( 'itch-login-success', callback),
+  handleItchLoginFail: (callback) => ipcRenderer.on( 'itch-login-fail', callback),
+  handleItchOwnedData: (callback) => ipcRenderer.on( 'itch-owned-data', callback),
+  handleItchOwnedDataFail: (callback) => ipcRenderer.on( 'itch-owned-data-fail', callback)
 })
 
 contextBridge.exposeInMainWorld('versions', {
@@ -46,6 +49,7 @@ contextBridge.exposeInMainWorld(
       invoke: (channel, data) => {
         console.log( "Invoke", channel );
 
+        // these are the items we send from the renderer to MAIN
           let validChannels = [
             "refresh-itch-login",
             "refresh-itch-owned-data"

@@ -1,29 +1,63 @@
+/* general body settings */
+
 :root {
     --color-yellow: #ffc800;
     --color-green: #c8ff00;
     --color-purple: #8c00ff;
+    --color-purple-gray: #777086;
+    --color-ltgray: #efefef;
+    --color-dkgray: #444;
+    --controls-bg-color: orange;
+    --controls-icon-color: black;
+
+    --content-pane-height: calc( 100vh - 78px );
 }
 
+/*
+div {
+    outline: 1px solid red;
+}
+*/
+
+.bg-pd-purple {
+    background: var( --color-purple );
+    color: white;
+}
+.bg-pd-yellow {
+    background: var( --color-yellow );
+    color: black;
+}
 
 body {
     background: var( --color-yellow );
+    height: 100vh;
 }
 
+.container-fluid {
+    height: 100%;
+}
+
+/* dual ring spinner */
 .lds-dual-ring {
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    width: 32px;
+    height: 32px;
   }
+
   .lds-dual-ring:after {
     content: " ";
     display: block;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
+    width: 32px;
+    height: 32px;
+    margin: 0px;
     border-radius: 50%;
-    border: 6px solid var( --color-purple );
-    color: var( --color-purple );
-    border-color: var( --color-purple ) transparent var( --color-purple ) transparent;
+    /* this is the thickness of the spinner */
+    border: 5px solid var( --controls-icon-color ); 
+    color: var( --controls-icon-color );
+    border-color: var( --controls-icon-color ) 
+        transparent 
+        var( --controls-icon-color ) 
+        transparent;
     animation: lds-dual-ring 1.2s linear infinite;
   }
   @keyframes lds-dual-ring {
@@ -35,50 +69,185 @@ body {
     }
   }
 
-.icon-exclamation-wrapper {
-    width: 100%;
-    height: 64px;
+
+/* Header row stuff */
+
+.header-row {
+    background-color: var( --controls-bg-color );
+    height: 40px;
+}
+
+img.itch-user-image,
+img.sideload-user-image {
+    margin-top: 1px;
+    max-width: 32px;
+    width: 32px;
+    height: 32px;
+    max-height: 32px;
+    border-radius: 32px;
+    border: 1px solid black;
+    overflow: hidden;
+}
+
+.itch-user-name,
+.sideload-user-name
+{
+    line-height: 38px;
+    white-space: nowrap;
+    font-weight: 600;
+    display: inline;
+    overflow: hidden;
+}
+
+.faded {
+    font-style: italic;
+    opacity: .5;
+}
+
+/* status row */
+.status-row {
+    background: #ffaa5080;
     text-align: center;
+}
+.status-row .left-status,
+.status-row .right-status {
+    padding-top: 7px;
+    font-style: italic;
+    font-weight: 200;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.status-row .center-status {
+    background-color: var( --controls-bg-color );
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.center-status {
+    max-height: 32px;
+    height: 32px;
+}
+.icon-wrapper {
+    display: inline;
+    width: 32px;
+    max-height: 32px;
+    text-align: center;
+    overflow: hidden;
 }
 
 .icon-exclamation {
-    width: 64px;
-    height: 64px;
-    color: var( --color-purple );
+    width: 32px;
+    height: 32px;
+    line-height: 16px;
+    vertical-align: text-bottom;
 }
 
-
-.purple-bottom {
-    position:absolute;
-    height: 16px;
-    bottom:0;
+/* controls pane */
+.center-pane {
+    background: transparent;
+    outline-color:aqua;
+    height: var( --content-pane-height );
+    max-height: var( --content-pane-height );
 }
 
-hr {
-    border-color: var( --color-purple );
-    background-color: var( --color-purple );
-    height: 10px;
+.center-pane .button-group {
+    xbackground-color: orange;
+    xborder: 2px solid transparent;
+    border-radius: 10px;
+    margin-left: -12px;
+    width: calc( 100% + 24px );
+    padding: 5px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.button-group .title {
+    font-weight: 900;
+    text-align: center;
+}
+
+.button-group button.btn-action {
+    display: inline-block;
+    width: 100%;
+    background: var( --color-purple); 
+    color: white;
+    font-weight: 900;
+    border: 0px solid black;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.button-group button.btn-action.disabled {
+    background: var( --color-dkgray ); 
+    color: #fff8;
+    opacity:1;
+}
+
+.button-group button.btn-action:hover {
+    background-color: black;
+}
+
+.center-pane hr {
+    width: calc( 100% + 24px );
+    margin-left: -12px;
+    background-color: var( --color-yellow );
+    border: 3px solid  var( --color-yellow );
+    height: 12px;
     opacity: 1;
 }
 
-.full-width-div {
-    position: absolute;
-    width: 100%;
-    left: 0;
+/* content row stuff */
+
+.content-row {
+    height: var( --content-pane-height );
+}
+
+.left-pane,
+.content-pane,
+.right-pane {
+    height: var( --content-pane-height );
+    max-height: var( --content-pane-height );
+    overflow: auto;
+}
+
+.itch-list {
+    xoutline-color: var(--color-purple);
+}
+
+.sideload-list {
+    xoutline-color: lime;
+}
+
+/* List item stuff */
+
+.itch-list-item.selected {
+    background-color: var( --color-green );
+}
+
+.itch-list-item-thumbnail {
+    max-height: auto;
+    max-width: 100px;
 }
 
 
+/*
+
 .left-pane,
 .right-pane {
-  padding-left: 20px;
   padding:0;
-  height: 100vh;
+  height: calc( 100vh - 40px );
 }
 
 .itch-header,
 .sideload-header {
     margin-bottom: 5px;
 }
+.sideload-header { 
+    background: lime;
+}
+.col-5 { background-color: green;}
+.col-2 { background-color: purple;}
 
 .btn {
     margin:0;
@@ -86,8 +255,10 @@ hr {
 
 .center-pane {
     text-align: center;
-    background-color: black;
     color: white;
+    border-left: 1px solid var( --color-purple );
+    border-right: 1px solid var( --color-purple );
+    background-color: orange;
 }
 .center-pane .badge {
     width: 100%;
@@ -113,35 +284,16 @@ hr {
 }
 .nowrap {
     white-space:nowrap;
-    margin-left: -.5rem;
-}
-
-.js-status-indicator {
-    padding: .5rem 0;
-    margin: 5px 60px 5px 20px;
-    width: 90%;
-}
-
-.faded {
-    font-style: italic;
-    opacity: .5;
+    xmargin-left: -.5rem;
 }
 
 
-img.itch-user-image,
-img.sideload-user-image {
-    max-width: 35px;
-    width: 35px;
-    height: 35px;
-    max-height: 35px;
-    border-radius: 35px;
-    border: 1px solid black;
-}
+
 
 .itch-user-name,
 .sideload-user-name
 {
-    line-height: 36px;
+    line-height: 38px;
     margin-bottom: 0px;
     white-space: nowrap;
     font-weight: 600;
@@ -152,9 +304,8 @@ img.sideload-user-image {
 .itch-list,
 .sideload-list {
     border: 0px solid var( --color-purple );
-    background: transparent;
     width: 100%;
-    height: calc( 100% - 44px );
+    height: calc( 100vh - 40px );
     overflow: hidden;
     margin:0;
     padding:0;
@@ -172,7 +323,7 @@ img.sideload-user-image {
 }
 
 .itch-list-item-thumbnail {
-    max-height: auto; /* 50px; */
+    max-height: auto;
     max-width: 100px;
 }
 
@@ -189,5 +340,5 @@ img.sideload-user-image {
     font-style: italic;
     font-size: smaller;
     font-weight: 900;
-
 }
+*/

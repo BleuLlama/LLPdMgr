@@ -101,6 +101,8 @@ function GetAndSend_Itch_MyOwnedData() {
   itchapi.GetMyOwnedKeys( function( success, data ) {
     if( success ) { 
       mainWindow.webContents.send( 'itch-owned-data', data );
+    } else {
+      mainWindow.webContents.send( 'itch-owned-data-fail', data );
     }
   });
 }
@@ -162,6 +164,10 @@ app.whenReady().then(() => {
   win.webContents.setDevToolsWebContents(devtools.webContents)
   win.webContents.openDevTools({ mode: 'detach' })
   */
+
+  setTimeout( function() {
+    mainWindow.webContents.send( 'app-finished-startup' );
+  }, 500 );
 
 });
 
