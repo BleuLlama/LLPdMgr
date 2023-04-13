@@ -19,39 +19,105 @@ class APIHelper {
 		});
 	}
 
-	save( key, data, type )
+	slugify( txt ) 
+	{
+		let slug = txt.toLowerCase()
+			.trim()
+			.replace( /\//g, '-' )		// slashes become dashes
+			.replace( /http[s]:/g, '' )	// remove http(s): remove
+			.replace( /--/g, '-' )		// --+ becomes -
+			.replace( /^-/, '' ) 		// remove - at beginning
+			.replace( /-$/, '' )		// remove - at end
+			;
+
+		return slug;
+	}
+
+	filePathClean( filename ) 
+	{
+		let fn = filename
+			.replace( /\/\//g, '/' )	// remove repeated slashes
+			.replace( /\.\./g, '.' );	// remove repeted dottts
+		return fn;
+	}
+
+	load( key, type )
 	{
 		if( type == undefined ) { type = 'json'; }
 
+		// if not set, default to json
+		if( type == undefined ) { type = 'json'; }
+
+		// if the key starts with / take everything after that.
 		if( key[0] == '/' ) { key = key.slice( 1 ) };
 
-		key = key.replace( '/', '-' );
-		var filename = this.cachedir + '/' + this.save_basename + '-ajax-' + key + '.json';
-		filename = filename.replace( '//', '/' );
-		
+		// make the key a slugified form
+		key = this.slugify( key );
+
+		// build the destination path
+		let filename = this.cachedir + '/';
+		if( type == 'raw' ) {
+			// raw is really text, but sidesteps the basename
+			type = 'txt';
+			filename += key + '.' + type;
+
+		} else {
+			//key = key.replace( '/', '-' );
+			filename += this.save_basename + '-ajax-' 
+						+ key + '.' + type;
+		}
+
+		// and clean the path.
+		filename = this.filePathClean( filename );
+		let filedata = undefined;
+
+		try {
+			filedata = fs.readFileSync( filename );
+		} catch {
+			filedata = undefined;
+		}
+		return filedata;
+	}
+
+	save( key, data, type )
+	{
+		// if not set, default to json
+		if( type == undefined ) { type = 'json'; }
+
+		// if the key starts with / take everything after that.
+		if( key[0] == '/' ) { key = key.slice( 1 ) };
+
+		// make the key a slugified form
+		key = this.slugify( key );
+
+		// build the destination path
+		let filename = this.cachedir + '/';
+		if( type == 'raw' ) {
+			// raw is really text, but sidesteps the basename
+			type = 'txt';
+			filename += key + '.' + type;
+
+		} else {
+			//key = key.replace( '/', '-' );
+			filename += this.save_basename + '-ajax-' 
+						+ key + '.' + type;
+		}
+		// and clean the path.
+		filename = this.filePathClean( filename );
+
+		// data conversions.
+		// if type is json, store it as such
 		if( type == 'json' ) {
 			data = JSON.stringify(data, null, 4);
 		}
 
+		// now write out the cache file
+		//console.log( "Saving " + data.length + " bytes to " + filename );
 		fs.writeFile( filename, data, err => {
 			if (err) {
 				console.error(err);
 			}
 		});
-	}
-
-	load( key )
-	{
-		if( key[0] == '/' ) { key = key.slice( 1 ) };
-		var filename = this.cachedir + '/' + this.save_basename + '-ajax-' + key + '.json';
-		filename = filename.replace( '//', '/' );
-
-		var data = fs.readFileSync( filename );
-		if( data != undefined ) {
-			data = JSON.parse( data );
-		}
-
-		return data;
 	}
 
 	loadFromCache( key, callbackfn )

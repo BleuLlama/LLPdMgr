@@ -15,6 +15,7 @@
     -->
 
     <link rel="stylesheet" href="./contents/bootstrap.min.css" />
+    <link rel="stylesheet" href="./contents/roobert.css" />
     <link rel="stylesheet" href="./contents/style.css" />
     <script src="./contents/jquery.min.js"></script>
     <script src="./contents/bootstrap.min.js"></script>
@@ -45,11 +46,11 @@
       <!-- STATUS ROW -->
       <div class="row status-row">
 
-        <div class="col-5 left-status bg-pd-purple" id="itch-status">Not connected</div>
+        <div class="col-5 left-status" id="itch-status">...</div>
 
         <div class="col-2 center-status">
 
-          <div id="js-status-ring" class="icon-wrapper">
+          <div id="js-status-ring" class="icon-wrapper d-none">
             <div class="lds-dual-ring"></div>
           </div>
 
@@ -64,7 +65,7 @@
 
         </div>
 
-        <div class="col-5 right-status bg-pd-purple" id="sideload-status">Not connected</div>
+        <div class="col-5 right-status" id="sideload-status">...</div>
       </div>
 
 
@@ -89,7 +90,7 @@
             <button type="button" 
                 onclick="uiaction_refresh_sideload()"
                 class="btn btn-action" 
-                id="refresh-itch">Sideload</button>
+                id="refresh-sideload">Sideload</button>
           </div>
 
           <div class="button-group"> 
@@ -134,10 +135,10 @@
   
   <!-- templatier items -->
 
-  <script type="text/template" id="templte-itch-list-item">
+  <script type="text/template" id="template-itch-list-item">
     <div class="col-12 itch-list-item"
           id="itch-item-${game.id}"
-          onclick= "clickedListItem( '${game.id}' );""
+          onclick= "clickedItchItem( '${game.id}' );""
           data-game-id="${game.id}"
           data-game-url="${game.url}"
           data-short_text="${game.short_text}"
@@ -145,11 +146,39 @@
       <table>
         <tr>
           <td class="itch-th-container">
-            <img class="itch-list-item-thumbnail" src="${game.cover_url}"/>
+            <img class="itch-list-item-thumbnail" 
+              src="${game.cover_url}"
+              onerror="this.src='contents/default-card2.png'"/>
           </td>
           <td class="itch-th-data">
             <h6 class="itch-list-item-title" >${game.title}</h6>
             <h6 class="itch-list-item-author" >${game.author}</h6>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </script>
+
+  <script type="text/template" id="template-sideload-list-item">
+    <div class="col-12 sideload-list-item"
+          id="sideload-item-${id}"
+          onclick= "clickedSideloadItem( '${id}' );""
+          data-game-id="${id}"
+      >
+      <table>
+        <tr>
+          <td class="sideload-th-container">
+            <img class="sideload-list-item-thumbnail"
+              src="${imageUrl}"
+              onerror="this.src='contents/default-card2.png'"/>
+          </td>
+          <td class="sideload-th-data">
+            <h6 class="sideload-list-item-title" >${title}</h6>
+            <h6 class="sideload-list-item-author" >${developer}</h6>
+            <h6 class="sideload-list-item-versinfo" >
+              <span class=".sideload-list-date">${builds.0.date}</span>
+              <span class=".sideload-list-version">${builds.0.version}</span>
+              </h6>
           </td>
         </tr>
       </table>

@@ -31,6 +31,7 @@ div {
 body {
     background: var( --color-yellow );
     height: 100vh;
+    font-family: Roobert,Helvetica,sans-serif;
 }
 
 .container-fluid {
@@ -75,6 +76,8 @@ body {
 .header-row {
     background-color: var( --controls-bg-color );
     height: 40px;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 img.itch-user-image,
@@ -108,14 +111,18 @@ img.sideload-user-image {
 .status-row {
     background: #ffaa5080;
     text-align: center;
+    margin-left: 0;
+    margin-right: 0;
 }
 .status-row .left-status,
 .status-row .right-status {
-    padding-top: 7px;
+    padding-top: 4px;
     font-style: italic;
-    font-weight: 200;
+    font-weight: 300;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .status-row .center-status {
@@ -123,6 +130,36 @@ img.sideload-user-image {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+
+.status-black {
+    background-color: black;
+    color: white;
+}
+.status-red {
+    background-color: #ff4040;
+    color: black;
+}
+.status-orange {
+    background-color: orange;
+    color: black;
+}
+.status-yellow {
+    background-color: var( --color-yellow );
+    color: black;
+}
+.status-green {
+    background-color: #40cc40;
+    color: black;
+}
+.status-cyan {
+    background-color: #40cccc;
+    color: black;
+}
+.status-purple {
+    background-color: var( --color-purple );
+    color: white;
+}
+
 
 .center-status {
     max-height: 32px;
@@ -152,8 +189,6 @@ img.sideload-user-image {
 }
 
 .center-pane .button-group {
-    xbackground-color: orange;
-    xborder: 2px solid transparent;
     border-radius: 10px;
     margin-left: -12px;
     width: calc( 100% + 24px );
@@ -169,11 +204,11 @@ img.sideload-user-image {
 .button-group button.btn-action {
     display: inline-block;
     width: 100%;
-    background: var( --color-purple); 
+    background: black;
     color: white;
-    font-weight: 900;
+    font-weight: 700;
     border: 0px solid black;
-    border-radius: 5px;
+    border-radius: 1rem;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -181,11 +216,11 @@ img.sideload-user-image {
 .button-group button.btn-action.disabled {
     background: var( --color-dkgray ); 
     color: #fff8;
-    opacity:1;
+    opacity:0.5;
 }
 
 .button-group button.btn-action:hover {
-    background-color: black;
+    background: var( --color-purple); 
 }
 
 .center-pane hr {
@@ -220,16 +255,54 @@ img.sideload-user-image {
 }
 
 /* List item stuff */
+.sideload-list-item,
+.itch-list-item {
+    border-radius: 5px;
+    background-color: orange;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 
+}
+
+.sideload-list-item.selected,
 .itch-list-item.selected {
     background-color: var( --color-green );
 }
 
+.sideload-list-item-thumbnail,
 .itch-list-item-thumbnail {
     max-height: auto;
     max-width: 100px;
 }
 
+.sideload-th-data,
+.itch-th-data {
+    padding-left: 10px;
+}
+
+.sideload-list-item-title,
+.itch-list-item-title {
+    font-weight: 500;
+}
+
+.sideload-list-item-author,
+.itch-list-item-author {
+    font-style: italic;
+    font-size: smaller;
+    font-weight: 900;
+}
+
+.sideload-list-item-versinfo {
+    font-size: smaller;
+    font-weight: 300;
+}
+
+
+.sideload-list-item-date,
+.sideload-list-item-version {
+}
 
 /*
 
@@ -328,17 +401,4 @@ img.sideload-user-image {
 }
 
 
-.itch-th-data {
-    padding-left: 10px;
-}
-
-.itch-list-item-title {
-    font-weight: 500;
-}
-
-.itch-list-item-author {
-    font-style: italic;
-    font-size: smaller;
-    font-weight: 900;
-}
 */

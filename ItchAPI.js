@@ -87,7 +87,27 @@ class ItchAPI extends APIHelper {
 	GetMyOwnedKeys( callbackfn ) {
 		// these seem to be games that the user published
 		this.api( '/my-owned-keys', function( success, data ) {
-			callbackfn( success, data );
+			console.log( data.owned_keys[0].title );
+
+			var sorted = [];
+
+			// sort by .title
+			let sorted_game_records = data.owned_keys.sort(function(a,b){
+				if( a.title == undefined || b.title == undefined ) { return 0; }
+				// here a , b is whole object, you can access its property
+				//convert both to lowercase
+				let x = a.title.toLowerCase();
+				let y = b.title.toLowerCase();
+			
+				//compare the word which is comes first
+				if(x>y){return 1;} 
+				if(x<y){return -1;}
+				return 0;
+			});
+
+			
+			data.owned_keys = sorted_game_records;
+			callbackfn( true, sorted_game_records );
 
 			/*
 			data.owned_keys.forEach( function( val, idx ) {

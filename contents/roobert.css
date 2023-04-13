@@ -1,0 +1,52 @@
+/*
+@font-face {
+    font-family: Roobert;
+    src: url(./Roobert-Light.woff2) format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display:swap
+}
+*/
+
+@font-face {
+    font-family: Roobert;
+    src: url(./Roobert-Regular.woff2) format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display:swap
+}
+
+@font-face {
+    font-family: Roobert;
+    src: url(./Roobert-Medium.woff2) format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display:swap
+}
+
+@font-face {
+    font-family: Roobert;
+    src: url(./Roobert-SemiBold.woff2) format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display:swap
+}
+
+@font-face {
+    font-family: Roobert;
+    src: url(./Roobert-Bold.woff2) format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display:swap
+}
+
+@font-face {
+    font-family: Roobert;
+    src: url(./Roobert-Heavy.woff2) format("woff2");
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap
+}
+/*# sourceMappingURL=/s/files/1/0403/0870/3392/t/7/assets/roobert-all.css.map?v=152083528611482261401625091114 */
+
+

@@ -138,6 +138,38 @@ function IsEmpty( value )
     return false;
 }
 
+function ShowIcon( which )
+{
+    if( which == 'exclamation' || which == '!' ) {
+        ElAddClass( 'js-status-ring', 'd-none' );
+        ElRemoveClass( 'js-status-exclamation', 'd-none' );
+    } else if( which == 'ring' || which == 'o' ) {
+        ElRemoveClass( 'js-status-ring', 'd-none' );
+        ElAddClass( 'js-status-exclamation', 'd-none' );
+    } else {
+        ElAddClass( 'js-status-ring', 'd-none' );
+        ElAddClass( 'js-status-exclamation', 'd-none' );
+    }
+}
+
+function ShowStatus( iors, color, text )
+{
+    const sel = iors + '-status';
+    console.log( sel );
+
+    ElRemoveClass( sel, 'status-black' );
+    ElRemoveClass( sel, 'status-red' );
+    ElRemoveClass( sel, 'status-orange' );
+    ElRemoveClass( sel, 'status-yellow' );
+    ElRemoveClass( sel, 'status-green' );
+    ElRemoveClass( sel, 'status-cyan' );
+    ElRemoveClass( sel, 'status-purple' );
+    ElAddClass( sel, 'status-' + color );
+
+    ElSetContent( sel, text );
+}
+
+
 
 // recursively go through an object and move all of the sub properties down
 // to the base object with key/separator based names.

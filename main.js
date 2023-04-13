@@ -84,6 +84,55 @@ const createMainWindow = () => {
 };
 
 
+function Sideload_Login( callbackfn ) {
+  sideloadapi.SignIn( function( success, data ) {
+    console.log( "ZZZ SL LOGIN ", success, data );
+    if( success ) { 
+      mainWindow.webContents.send( 'sideload-login-success', data );
+      callbackfn( true, data );
+    } else {
+      mainWindow.webContents.send( 'sideload-login-fail', data );
+      callbackfn( false, data );
+    }
+  });
+
+}
+
+function GetAndSend_Sideloads() {
+  let ret = false;
+
+  if( sideloadapi.isSignedIn == false ) {
+    return ret;
+  }
+
+  sideloadapi.getSideloads( function( success, data ) {
+
+    if( success ) { 
+      mainWindow.webContents.send( 'sideload-game-list', data );
+    } else {
+      mainWindow.webContents.send( 'sideload-game-list-fail', data );
+    }
+
+    ret = success;
+
+  });
+  return ret;
+}
+
+ipcMain.handle('refresh-sideloads', async (event, arg) => {
+  return new Promise(function(resolve, reject) {
+    // do stuff
+    if (true) {
+      GetAndSend_Sideloads();
+
+      resolve( "OK 100" );
+    } else {
+        reject("this didn't work!");
+    }
+  });  
+});
+
+
 function GetAndSend_Itch_Me() {
 
   itchapi.GetMe( function( success, data ) {
@@ -156,7 +205,14 @@ app.whenReady().then(() => {
     }
   });
 
+  
+
   GetAndSend_Itch_Me();
+
+  Sideload_Login( function( status, data ) {
+    if( status == false ) { console.log( "Faiure to login." ); return; }
+    GetAndSend_Sideloads();
+  });
   
   /*
   devtools = new BrowserWindow()
@@ -167,7 +223,7 @@ app.whenReady().then(() => {
 
   setTimeout( function() {
     mainWindow.webContents.send( 'app-finished-startup' );
-  }, 500 );
+  }, 1000 );
 
 });
 
