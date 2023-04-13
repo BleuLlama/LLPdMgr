@@ -2,7 +2,7 @@
   "name": "llpdmgr",
   "version": "1.0.0",
   "description": "Llama Playdate Manager",
-  "main": "main.js",
+  "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
     "test": "echo \"Error: no test specified\" && exit 1",
