@@ -27,6 +27,14 @@ than upating that out-of-date not-quite-complete tool,
 I thought it made sense to make this Electron-based 
 portable app instead.
 
+# NOTE #
+
+This code is messy as heck. I'm in the middle of learning good
+practices with Electron apps, so it's a bit in a transitional 
+phase right now.  I also realized that the screen scraper is 
+taking a lot more time to process than I had expexted, so I 
+am reworking the data flow for that portion as well.
+
 ## Core Features / Roadmap
 
 - Save itch and sideload credentials
