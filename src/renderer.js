@@ -7,6 +7,9 @@ window.electronAPI.appFinishedStartup( (event, value ) => {
 
     // on app startup... get itch data
     INVOKE_ON_MAIN( 'refresh-itch-owned-data' );
+
+    console.log( "XXXXXXXX" );
+    console.log( itchapi.version() );
 });
 
 

@@ -10,6 +10,8 @@ var lls = new LLsettings();
 var itchapi = new ItchAPI( lls );
 var sideloadapi = new SideloadAPI( lls );
 
+console.log( "Versions", itchapi.version(), sideloadapi.version() );
+
 //lls.test();
 
 //sideloadapi.test();

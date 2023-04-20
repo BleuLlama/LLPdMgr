@@ -1,4 +1,7 @@
 
+const ITCHAPI_VERSION = "v0.01 / 2023-04-14";
+
+
 //const os = require("os");
 //const fs = require('fs');
 const https = require("https");
@@ -14,6 +17,10 @@ class ItchAPI extends APIHelper {
 		this.itch_api = llcfg.Get( 'credentials/itch.io/iapikey' );
 	}
 
+	version()
+	{
+		return super.version( this.constructor.name, ITCHAPI_VERSION );
+	}
 
 	api( endpoint, callbackfn, getOrPost, querydata )
 	{

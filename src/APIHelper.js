@@ -1,4 +1,6 @@
 
+const HELPAPI_VERSION = "v0.01 / 2023-04-14";
+
 const os = require("os");
 const fs = require('fs');
 const https = require("https");
@@ -17,6 +19,14 @@ class APIHelper {
 		fs.mkdirSync( this.cachedir, { recursive: true }, (err) => {
 			if (err) throw err;
 		});
+	}
+
+	version( child_name, child_version )
+	{
+		let v = { 'APIHelper' : HELPAPI_VERSION };
+		v[ child_name ] = child_version;
+
+		return JSON.stringify( v, JSON );
 	}
 
 	slugify( txt ) 

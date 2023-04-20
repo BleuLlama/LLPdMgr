@@ -1,4 +1,7 @@
 
+const SLAPI_VERSION = "v0.01 / 2023-04-14";
+
+
 //const os = require("os");
 //const fs = require('fs');
 //const https = require("https");
@@ -31,6 +34,11 @@ class SideloadAPI extends APIHelper {
 		this.logintext = '';
 
 		this.debug = false;
+	}
+
+	version()
+	{
+		return super.version( this.constructor.name, SLAPI_VERSION );
 	}
 
 	async SignIn( callbackfn ) {
@@ -286,8 +294,6 @@ class SideloadAPI extends APIHelper {
 			console.log( "GSL ", status, message );
 		});
 
-		//console.log( games );
-		
 	}
 }
 
